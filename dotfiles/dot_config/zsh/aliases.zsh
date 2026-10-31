@@ -6,3 +6,8 @@ elif [[ "$OSTYPE" == darwin* ]]; then
 else
     alias ls='ls --color=auto --group-directories-first'
 fi
+
+# Debian packages fd as fdfind.
+if (( $+commands[fdfind] && ! $+commands[fd] )); then
+    alias fd=fdfind
+fi

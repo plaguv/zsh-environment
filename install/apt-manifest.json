@@ -1,0 +1,13 @@
+{
+  "packages": [
+    "chezmoi",
+    "eza",
+    "fd-find",
+    "git",
+    "jq",
+    "mise",
+    "ripgrep",
+    "starship",
+    "zsh"
+  ]
+}
