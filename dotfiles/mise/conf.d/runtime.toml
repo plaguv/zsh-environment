@@ -1,0 +1,18 @@
+[tools]
+java = "temurin-25"
+maven = "3.10"
+python = "3.15"
+uv = "0.13"
+rust = { version = "1.99", components = "clippy,rustfmt" }
+#go = "1.27"
+#node = "26"
+
+[env]
+CARGO_HOME = "${XDG_DATA_HOME}/cargo"
+UV_TOOL_DIR = "${XDG_DATA_HOME}/uv/tools"
+UV_TOOL_BIN_DIR = "${HOME}/.local/bin"
+UV_PYTHON_INSTALL_DIR = "${XDG_DATA_HOME}/uv/python"
+UV_CACHE_DIR = "${XDG_CACHE_HOME}/uv"
+
+# Make uv tools and Cargo-installed commands available in activated shells.
+_.path = ["${HOME}/.local/bin", "${CARGO_HOME}/bin"]

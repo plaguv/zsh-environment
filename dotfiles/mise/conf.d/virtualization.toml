@@ -1,0 +1,30 @@
+# Optional virtualization and container tooling.
+# Examples only: these major/minor constraints follow patch releases within
+# the selected minor. Versions checked against upstream releases on 2026-10-31.
+
+# [tools]
+# Container CLI and Compose plugin; manage the Docker daemon separately.
+# docker-cli = "29.9"
+# docker-compose = "5.6"
+
+# Kubernetes client and package manager.
+# kubectl = "1.37"
+# helm = "4.3"
+# k9s = "0.51"
+# kubectx = "0.11"
+# oc = "4.22"
+
+# Local Kubernetes clusters (kind needs a container runtime).
+# kind = "0.33"
+# minikube = "1.39"
+
+# Alternative container tools.
+# podman = "6.1"
+# nerdctl = "2.4"
+
+# Local VM/container managers. Colima is macOS-specific.
+# colima = "0.10"
+# lima = "2.2"
+
+# [env]
+# DOCKER_CONFIG = "${XDG_CONFIG_HOME}/docker"
