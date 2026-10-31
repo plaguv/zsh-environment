@@ -1,0 +1,80 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+add_newline = true
+command_timeout = 1000
+
+palette = "obsidian"
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$python\
+$java\
+$rust\
+$line_break\
+$character"""
+
+continuation_prompt = "[  ·](slate) "
+
+[palettes.obsidian]
+obsidian = "#2e3440"
+graphite = "#3b4252"
+slate = "#4c566a"
+steel = "#8894a6"
+frost = "#d8dee9"
+snow = "#eceff4"
+error = "#bf616a"
+
+[directory]
+format = "[󰉋](slate) [$path](bold frost) "
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+read_only = " 󰌾"
+read_only_style = "steel"
+
+[git_branch]
+symbol = "󰊢"
+format = "[on](slate) [$symbol $branch](steel) "
+
+[git_status]
+format = "([·](slate) [$all_status$ahead_behind](steel) )"
+conflicted = "[!](error)"
+staged = "+${count} "
+modified = "~${count} "
+untracked = "?${count} "
+deleted = "-${count} "
+renamed = "»${count} "
+stashed = "*${count} "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+diverged = "⇡${ahead_count}⇣${behind_count} "
+
+[git_state]
+format = "[·](slate) [$state( $progress_current/$progress_total)](error) "
+
+[python]
+symbol = "󰌠"
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
+[java]
+symbol = ""
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
+[rust]
+symbol = "󱘗"
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
+[character]
+success_symbol = "[>](steel)"
+error_symbol = "[>](error)"
+vimcmd_symbol = "[<](frost)"
+vimcmd_replace_one_symbol = "[<](steel)"
+vimcmd_replace_symbol = "[<](steel)"
+vimcmd_visual_symbol = "[<](steel)"
+
