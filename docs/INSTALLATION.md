@@ -8,7 +8,7 @@ Clone this repository, change into the checkout, and run:
 ./install.sh
 ```
 
-The installer uses `install/Brewfile` on macOS or `install/apt-manifest.json` on Debian/Ubuntu to install the shell and bootstrap tools. It then applies dotfiles from this checkout with chezmoi and runs `mise install` for the runtimes declared in the mise config. Homebrew must already be installed on macOS; Debian/Ubuntu setup uses `sudo` when needed.
+The installer uses `manifests/Brewfile` on macOS or `manifests/apt-manifest.json` on Debian/Ubuntu to install the shell and bootstrap tools. It then applies dotfiles from this checkout with chezmoi and runs `mise install` for the runtimes declared in the mise config. Homebrew must already be installed on macOS; Debian/Ubuntu setup uses `sudo` when needed.
 
 The repo's `.chezmoiroot` tells chezmoi to use `dotfiles/` as its source state, so there is no need to point chezmoi at that file directly.
 

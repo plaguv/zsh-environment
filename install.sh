@@ -3,8 +3,8 @@
 set -euo pipefail
 
 repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-apt_manifest="$repo_dir/install/apt-manifest.json"
-brewfile="$repo_dir/install/Brewfile"
+apt_manifest="$repo_dir/manifests/apt-manifest.json"
+brewfile="$repo_dir/manifests/Brewfile"
 platform=""
 distribution=""
 privilege=()
@@ -34,7 +34,7 @@ check_os() {
             esac
             platform="linux"
             command -v apt-get >/dev/null 2>&1 || die 'apt-get is required on Debian/Ubuntu.'
-            command -v python3 >/dev/null 2>&1 || die 'python3 is required to read install/apt-manifest.json.'
+            command -v python3 >/dev/null 2>&1 || die 'python3 is required to read manifests/apt-manifest.json.'
 
             if (( EUID != 0 )); then
                 command -v sudo >/dev/null 2>&1 || die 'Run as root or install sudo first.'
