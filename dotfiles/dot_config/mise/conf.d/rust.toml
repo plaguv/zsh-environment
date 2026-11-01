@@ -3,4 +3,5 @@ rust = { version = "1.99", components = "clippy,rustfmt" }
 
 [env]
 CARGO_HOME = "${XDG_DATA_HOME}/cargo"
+RUSTUP_HOME = "${XDG_DATA_HOME}/rustup"
 _.path = ["${CARGO_HOME}/bin"]
