@@ -1,9 +1,4 @@
-bat
-eza
-fd-find
 git
-neovim
 mise
-ripgrep
 starship
 zsh
