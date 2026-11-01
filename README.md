@@ -1,6 +1,6 @@
 # Zsh Environment
 
-A portable shell environment for my workstations. It uses [Zsh](https://www.zsh.org/) as the shell, [Starship](https://starship.rs/) for the prompt, [chezmoi](https://www.chezmoi.io/) to manage dotfiles, and [mise](https://mise.jdx.dev/) to manage language runtimes.
+A portable shell environment for my workstations. It uses [Zsh](https://www.zsh.org/) as the shell, [Starship](https://starship.rs/) for the prompt, and [mise](https://mise.jdx.dev/) to deploy dotfiles and manage language runtimes.
 
 General shell utilities are installed through the system package manager: Homebrew on macOS or apt on Debian and Ubuntu.
 
@@ -14,7 +14,7 @@ cd zsh-environment
 ./install.sh
 ```
 
-The installer sets up packages, applies the dotfiles, and installs the runtimes declared in the mise configuration. See the [installation guide](docs/INSTALLATION.md) for prerequisites and manual chezmoi options.
+The installer sets up packages, applies the dotfiles from `dotfiles/`, and installs the runtimes declared in the mise configuration. See the [installation guide](docs/INSTALLATION.md) for prerequisites and manual setup instructions.
 
 ## Supported systems
 

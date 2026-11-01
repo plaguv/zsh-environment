@@ -8,8 +8,7 @@ brewfile="$repo_dir/manifests/Brewfile"
 platform=""
 distribution=""
 privilege=()
-chezmoi_bin=""
-total_stages=5
+total_stages=4
 
 die() {
     printf 'install.sh: %s\n' "$*" >&2
@@ -28,7 +27,7 @@ run_stage() {
 
 check_os() {
     if (( EUID == 0 )) && [[ -n "${SUDO_USER:-}" ]]; then
-        die 'Run install.sh as your user without sudo. The apt steps request sudo when needed, while chezmoi and mise should use your user home.'
+        die 'Run install.sh as your user without sudo. The apt steps request sudo when needed, while mise should use your user home.'
     fi
 
     case "$(uname -s)" in
@@ -92,9 +91,6 @@ install_apt_packages() {
     for package in "${packages[@]}"; do
         if apt_has_candidate "$package"; then
             apt_packages+=("$package")
-        elif [[ "$package" == chezmoi ]]; then
-            # Some stable Debian/Ubuntu releases do not package chezmoi.
-            continue
         else
             die "Package '$package' is not available from the configured apt repositories."
         fi
@@ -116,22 +112,11 @@ install_shell() {
     esac
 }
 
-install_chezmoi() {
-    if command -v chezmoi >/dev/null 2>&1; then
-        chezmoi_bin="$(command -v chezmoi)"
-        printf '  Using chezmoi at %s.\n' "$chezmoi_bin"
-    else
-        command -v curl >/dev/null 2>&1 || die 'curl is required to install chezmoi.'
-        printf '  Installing chezmoi with its official installer.\n'
-        mkdir -p "$HOME/.local/bin"
-        curl -fsLS https://get.chezmoi.io | sh -s -- -b "$HOME/.local/bin"
-        chezmoi_bin="$HOME/.local/bin/chezmoi"
-    fi
-}
-
 import_config() {
-    printf '  Applying dotfiles from this checkout.\n'
-    "$chezmoi_bin" --source "$repo_dir" init --apply
+    command -v mise >/dev/null 2>&1 || die 'mise was not installed.'
+    printf '  Trusting the mise config and applying dotfiles from this checkout.\n'
+    mise trust "$repo_dir/mise.toml"
+    mise -C "$repo_dir" dot apply
 }
 
 install_runtime() {
@@ -149,9 +134,8 @@ install_runtime() {
 main() {
     run_stage 1 'Checking OS and prerequisites' check_os
     run_stage 2 'Installing shell and bootstrap packages' install_shell
-    run_stage 3 'Ensuring chezmoi is installed' install_chezmoi
-    run_stage 4 'Importing configuration with chezmoi' import_config
-    run_stage 5 'Installing runtimes with mise' install_runtime
+    run_stage 3 'Applying configuration with mise' import_config
+    run_stage 4 'Installing runtimes with mise' install_runtime
     printf '\nAll setup stages completed. Start zsh to use the installed shell configuration.\n'
 }
 

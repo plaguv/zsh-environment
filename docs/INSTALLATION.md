@@ -18,36 +18,25 @@ cd zsh-environment
 ./install.sh
 ```
 
-The installer detects the operating system and installs packages from [`manifests/Brewfile`](../manifests/Brewfile) or [`manifests/apt-manifest.json`](../manifests/apt-manifest.json). It then applies the dotfiles from this checkout with chezmoi and runs `mise install` to install the runtimes declared in the mise configuration.
+The installer detects the operating system and installs packages from [`manifests/Brewfile`](../manifests/Brewfile) or [`manifests/apt-manifest.json`](../manifests/apt-manifest.json). It then trusts this repository's mise config, deploys the files under [`dotfiles/`](../dotfiles/) into your home directory, and runs `mise install` for the configured runtimes.
+
+The contents of `dotfiles/` use the same names and directory layout as their destinations under your home directory. For example, `dotfiles/.config/zsh/aliases.zsh` is deployed as `~/.config/zsh/aliases.zsh`. mise uses copy mode, so edit the repository sources and rerun `mise dot apply` to deploy changes.
 
 The installer does not change your login shell. Once setup finishes, start a Zsh session with `zsh` or set Zsh as your login shell using your operating system's usual method.
 
-## Set up with chezmoi directly
+## Apply the configuration manually
 
-If the required tools are already installed, chezmoi can clone the repository and apply the dotfiles. To preview changes first:
+If mise and the required packages are already installed, clone the repository and run:
 
 ```sh
-chezmoi init plaguv/zsh-environment
-chezmoi diff
-chezmoi apply
+git clone https://github.com/plaguv/zsh-environment.git
+cd zsh-environment
+mise trust mise.toml
+mise dot diff
+mise dot apply
 mise install
 ```
 
-Or initialize and apply in one command:
+`mise dot diff` previews the file changes before applying them. The repository's `mise.toml` declares the dotfile deployment and requires a mise version that supports mise dotfiles.
 
-```sh
-chezmoi init --apply plaguv/zsh-environment
-mise install
-```
-
-The repository's [`.chezmoiroot`](../.chezmoiroot) tells chezmoi that the source state is under `dotfiles/`. You do not need to point chezmoi at that file. This direct setup applies dotfiles and installs mise runtimes, but it does not install the system packages listed in `manifests/`.
-
-## One-shot setup
-
-For a disposable environment, chezmoi can apply the dotfiles and then remove its local source, configuration, cache, and binary:
-
-```sh
-chezmoi init --one-shot plaguv/zsh-environment
-```
-
-One-shot setup is intended for temporary environments such as containers. It does not run `install.sh` or install the runtimes declared by mise.
+This direct setup deploys the dotfiles and installs the runtimes, but it does not install the system packages listed in `manifests/`.

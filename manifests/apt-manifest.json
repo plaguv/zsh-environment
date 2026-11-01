@@ -1,6 +1,5 @@
 {
   "packages": [
-    "chezmoi",
     "eza",
     "fd-find",
     "git",
