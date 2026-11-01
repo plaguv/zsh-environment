@@ -8,14 +8,22 @@ brewfile="$repo_dir/manifests/Brewfile"
 platform=""
 distribution=""
 privilege=()
+chezmoi_bin=""
+total_stages=5
 
 die() {
     printf 'install.sh: %s\n' "$*" >&2
     exit 1
 }
 
-info() {
-    printf '\n==> %s\n' "$*"
+run_stage() {
+    local stage_number="$1"
+    local description="$2"
+    shift 2
+
+    printf '\n[%s/%s] - %s\n' "$stage_number" "$total_stages" "$description"
+    "$@"
+    printf '[%s/%s] - Complete\n' "$stage_number" "$total_stages"
 }
 
 check_os() {
@@ -47,9 +55,9 @@ check_os() {
     esac
 
     if [[ "$platform" == macos ]]; then
-        info 'Detected macOS'
+        printf '  Detected macOS.\n'
     else
-        info "Detected $distribution Linux"
+        printf '  Detected %s Linux.\n' "$distribution"
     fi
 }
 
@@ -66,10 +74,12 @@ install_apt_packages() {
         [[ -n "$package" ]] && packages+=("$package")
     done < <(python3 -c 'import json, sys; print("\n".join(json.load(open(sys.argv[1]))["packages"]))' "$apt_manifest")
 
+    printf '  Refreshing apt package lists.\n'
     "${privilege[@]}" apt-get update
 
     # mise is distributed through its own apt repository on Debian/Ubuntu.
     if ! apt_has_candidate mise; then
+        printf '  Enabling the mise apt repository.\n'
         "${privilege[@]}" apt-get install -y extrepo
         "${privilege[@]}" extrepo enable mise
         "${privilege[@]}" apt-get update
@@ -86,14 +96,14 @@ install_apt_packages() {
         fi
     done
 
+    printf '  Installing packages from the apt manifest.\n'
     "${privilege[@]}" apt-get install -y "${apt_packages[@]}"
 }
 
 install_shell() {
-    info 'Installing shell and bootstrap packages'
-
     case "$platform" in
         macos)
+            printf '  Installing packages from the Homebrew Brewfile.\n'
             brew bundle --file="$brewfile"
             ;;
         linux)
@@ -102,36 +112,38 @@ install_shell() {
     esac
 }
 
-import_config() {
-    local chezmoi_bin
-
-    info 'Importing dotfiles with chezmoi'
-
+install_chezmoi() {
     if command -v chezmoi >/dev/null 2>&1; then
         chezmoi_bin="$(command -v chezmoi)"
+        printf '  Using chezmoi at %s.\n' "$chezmoi_bin"
     else
         command -v curl >/dev/null 2>&1 || die 'curl is required to install chezmoi.'
+        printf '  Installing chezmoi with its official installer.\n'
         mkdir -p "$HOME/.local/bin"
         curl -fsLS https://get.chezmoi.io | sh -s -- -b "$HOME/.local/bin"
         chezmoi_bin="$HOME/.local/bin/chezmoi"
     fi
+}
 
+import_config() {
+    printf '  Applying dotfiles from this checkout.\n'
     "$chezmoi_bin" --source "$repo_dir" init --apply
 }
 
 install_runtime() {
     command -v mise >/dev/null 2>&1 || die 'mise was not installed.'
 
-    info 'Installing runtimes declared in the mise config'
+    printf '  Installing runtimes declared in the mise config.\n'
     mise install
 }
 
 main() {
-    check_os
-    install_shell
-    import_config
-    install_runtime
-    printf '\nSetup complete. Start zsh to use the installed shell configuration.\n'
+    run_stage 1 'Checking OS and prerequisites' check_os
+    run_stage 2 'Installing shell and bootstrap packages' install_shell
+    run_stage 3 'Ensuring chezmoi is installed' install_chezmoi
+    run_stage 4 'Importing configuration with chezmoi' import_config
+    run_stage 5 'Installing runtimes with mise' install_runtime
+    printf '\nAll setup stages completed. Start zsh to use the installed shell configuration.\n'
 }
 
 main "$@"
