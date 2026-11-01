@@ -1,7 +1,7 @@
+brew "bat"
 brew "eza"
 brew "fd"
 brew "git"
-brew "jq"
 brew "neovim"
 brew "mise"
 brew "ripgrep"

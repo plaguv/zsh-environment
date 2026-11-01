@@ -1,9 +1,9 @@
 {
   "packages": [
+    "bat",
     "eza",
     "fd-find",
     "git",
-    "jq",
     "neovim",
     "mise",
     "ripgrep",
