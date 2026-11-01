@@ -3,7 +3,7 @@
 set -euo pipefail
 
 repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-apt_manifest="$repo_dir/manifests/apt-manifest.json"
+apt_package_list="$repo_dir/manifests/apt-packages.txt"
 brewfile="$repo_dir/manifests/Brewfile"
 platform=""
 distribution=""
@@ -45,8 +45,6 @@ check_os() {
             esac
             platform="linux"
             command -v apt-get >/dev/null 2>&1 || die 'apt-get is required on Debian/Ubuntu.'
-            command -v python3 >/dev/null 2>&1 || die 'python3 is required to read manifests/apt-manifest.json.'
-
             if (( EUID != 0 )); then
                 command -v sudo >/dev/null 2>&1 || die 'Run as root or install sudo first.'
                 privilege=(sudo)
@@ -70,12 +68,6 @@ apt_has_candidate() {
 
 install_apt_packages() {
     local package
-    local packages=()
-    local apt_packages=()
-
-    while IFS= read -r package; do
-        [[ -n "$package" ]] && packages+=("$package")
-    done < <(python3 -c 'import json, sys; print("\n".join(json.load(open(sys.argv[1]))["packages"]))' "$apt_manifest")
 
     printf '  Refreshing apt package lists.\n'
     "${privilege[@]}" apt-get update
@@ -88,16 +80,15 @@ install_apt_packages() {
         "${privilege[@]}" apt-get update
     fi
 
-    for package in "${packages[@]}"; do
-        if apt_has_candidate "$package"; then
-            apt_packages+=("$package")
-        else
+    while IFS= read -r package || [[ -n "$package" ]]; do
+        [[ -z "$package" ]] && continue
+        if ! apt_has_candidate "$package"; then
             die "Package '$package' is not available from the configured apt repositories."
         fi
-    done
+    done < "$apt_package_list"
 
-    printf '  Installing packages from the apt manifest.\n'
-    "${privilege[@]}" apt-get install -y "${apt_packages[@]}"
+    printf '  Installing packages from the apt package list.\n'
+    "${privilege[@]}" xargs -r -a "$apt_package_list" apt-get install -y
 }
 
 install_shell() {
