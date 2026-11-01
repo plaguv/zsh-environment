@@ -5,6 +5,7 @@
     "fd-find",
     "git",
     "jq",
+    "neovim",
     "mise",
     "ripgrep",
     "starship",

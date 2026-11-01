@@ -1,12 +1,25 @@
 # Zsh Environment
 
-Zsh environment I use between my different work stations.
+A portable shell environment for my workstations. It uses [Zsh](https://www.zsh.org/) as the shell, [Starship](https://starship.rs/) for the prompt, [chezmoi](https://www.chezmoi.io/) to manage dotfiles, and [mise](https://mise.jdx.dev/) to manage language runtimes.
+
+General shell utilities are installed through the system package manager: Homebrew on macOS or apt on Debian and Ubuntu.
 
 ## Install
 
-Clone this repository and run `./install.sh`. The installer supports macOS with Homebrew and Debian/Ubuntu with apt. See [docs/INSTALLATION.md](docs/INSTALLATION.md) for the setup flow.
+Clone the repository and run the installer:
 
-Git is needed to clone the repository. On macOS, install Homebrew first. The configuration expects a Nerd Font in the terminal (for example, JetBrainsMono Nerd Font).
+```sh
+git clone https://github.com/plaguv/zsh-environment.git
+cd zsh-environment
+./install.sh
+```
 
-# Examples
-[docs/banner.png]
+The installer sets up packages, applies the dotfiles, and installs the runtimes declared in the mise configuration. See the [installation guide](docs/INSTALLATION.md) for prerequisites and manual chezmoi options.
+
+## Supported systems
+
+The environment is mainly tested on macOS 27+ and Debian 13+. The installer also supports Ubuntu.
+
+## Terminal preview
+
+![Terminal preview of the Zsh environment](docs/banner.png)

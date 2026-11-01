@@ -1,47 +1,53 @@
-# Import Config
+# Installation
+
+This guide uses the GitHub repository [`plaguv/zsh-environment`](https://github.com/plaguv/zsh-environment).
 
 ## Automated setup
 
-Clone this repository, change into the checkout, and run:
+### Prerequisites
+
+- Git, to clone the repository.
+- On macOS: Homebrew.
+- On Debian or Ubuntu: Python 3 and `sudo` access (or run the installer as root).
+
+Clone the repository and run the installer from its directory:
 
 ```sh
+git clone https://github.com/plaguv/zsh-environment.git
+cd zsh-environment
 ./install.sh
 ```
 
-The installer uses `manifests/Brewfile` on macOS or `manifests/apt-manifest.json` on Debian/Ubuntu to install the shell and bootstrap tools. It then applies dotfiles from this checkout with chezmoi and runs `mise install` for the runtimes declared in the mise config. Homebrew must already be installed on macOS; Debian/Ubuntu setup uses `sudo` when needed.
+The installer detects the operating system and installs packages from [`manifests/Brewfile`](../manifests/Brewfile) or [`manifests/apt-manifest.json`](../manifests/apt-manifest.json). It then applies the dotfiles from this checkout with chezmoi and runs `mise install` to install the runtimes declared in the mise configuration.
 
-The repo's `.chezmoiroot` tells chezmoi to use `dotfiles/` as its source state, so there is no need to point chezmoi at that file directly.
+The installer does not change your login shell. Once setup finishes, start a Zsh session with `zsh` or set Zsh as your login shell using your operating system's usual method.
 
-## Manual chezmoi setup
+## Set up with chezmoi directly
 
-chezmoi can clone this repository into its source directory and use it to set up your home directory. Replace `OWNER/REPOSITORY` below with this repository's URL or shorthand.
-
-## Persistent setup
-
-Initialize chezmoi from the repository, review the proposed changes, then apply them:
+If the required tools are already installed, chezmoi can clone the repository and apply the dotfiles. To preview changes first:
 
 ```sh
-chezmoi init OWNER/REPOSITORY
+chezmoi init plaguv/zsh-environment
 chezmoi diff
 chezmoi apply
+mise install
 ```
 
-To initialize and apply in one step:
+Or initialize and apply in one command:
 
 ```sh
-chezmoi init --apply OWNER/REPOSITORY
+chezmoi init --apply plaguv/zsh-environment
+mise install
 ```
 
-This keeps the repository checkout and chezmoi configuration on the machine so you can update the dotfiles later with `chezmoi update`.
-
-If the repository contains a `.chezmoi.toml.tmpl`, chezmoi uses it during `init` to generate the machine's local chezmoi configuration. That config is local to the machine and does not need to be managed as a home-directory dotfile.
+The repository's [`.chezmoiroot`](../.chezmoiroot) tells chezmoi that the source state is under `dotfiles/`. You do not need to point chezmoi at that file. This direct setup applies dotfiles and installs mise runtimes, but it does not install the system packages listed in `manifests/`.
 
 ## One-shot setup
 
-For a temporary environment, chezmoi can apply the repository and then remove its checkout, configuration, cache, and binary:
+For a disposable environment, chezmoi can apply the dotfiles and then remove its local source, configuration, cache, and binary:
 
 ```sh
-chezmoi init --one-shot OWNER/REPOSITORY
+chezmoi init --one-shot plaguv/zsh-environment
 ```
 
-Use this for disposable environments such as containers. Since chezmoi removes itself and its local state afterward, this is not suitable when you want to keep the checkout for future updates.
+One-shot setup is intended for temporary environments such as containers. It does not run `install.sh` or install the runtimes declared by mise.
