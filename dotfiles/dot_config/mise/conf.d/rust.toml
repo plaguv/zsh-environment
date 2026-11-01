@@ -1,0 +1,6 @@
+[tools]
+rust = { version = "1.99", components = "clippy,rustfmt" }
+
+[env]
+CARGO_HOME = "${XDG_DATA_HOME}/cargo"
+_.path = ["${CARGO_HOME}/bin"]
