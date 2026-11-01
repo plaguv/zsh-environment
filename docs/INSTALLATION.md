@@ -8,7 +8,7 @@ This guide uses the GitHub repository [`plaguv/zsh-environment`](https://github.
 
 - Git, to clone the repository.
 - On macOS: Homebrew.
-- On Debian or Ubuntu: Python 3 and `sudo` access (or run the installer as root).
+- On Debian or Ubuntu: Python 3 and `sudo` access. Run the installer as your normal user; it invokes `sudo` for apt commands when needed.
 
 Clone the repository and run the installer from its directory:
 

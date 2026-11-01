@@ -27,6 +27,10 @@ run_stage() {
 }
 
 check_os() {
+    if (( EUID == 0 )) && [[ -n "${SUDO_USER:-}" ]]; then
+        die 'Run install.sh as your user without sudo. The apt steps request sudo when needed, while chezmoi and mise should use your user home.'
+    fi
+
     case "$(uname -s)" in
         Darwin)
             platform="macos"
@@ -79,7 +83,7 @@ install_apt_packages() {
 
     # mise is distributed through its own apt repository on Debian/Ubuntu.
     if ! apt_has_candidate mise; then
-        printf '  Enabling the mise apt repository.\n'
+        printf "  Installing extrepo, Debian's apt repository helper, to add the mise repository.\n"
         "${privilege[@]}" apt-get install -y extrepo
         "${privilege[@]}" extrepo enable mise
         "${privilege[@]}" apt-get update
@@ -132,9 +136,14 @@ import_config() {
 
 install_runtime() {
     command -v mise >/dev/null 2>&1 || die 'mise was not installed.'
+    command -v zsh >/dev/null 2>&1 || die 'zsh was not installed.'
 
-    printf '  Installing runtimes declared in the mise config.\n'
-    mise install
+    printf '  Starting zsh with the configured XDG paths before mise runs.\n'
+    XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}" \
+    XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}" \
+    XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}" \
+    XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}" \
+        zsh -c 'mise install'
 }
 
 main() {
