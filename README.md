@@ -16,9 +16,9 @@ The installer sets up base packages, applies the dotfiles from `dotfiles/`, and 
 
 ## Neovim
 
-The included Neovim configuration uses `lazy.nvim` to manage plugins and Mason to install language servers on first launch. It provides Blink LSP completion and navigation, Telescope file and text search, Tree-sitter highlighting, and the Nordic colorscheme. The package manifests install Neovim, ripgrep, and fd (`fdfind` on Debian).
+The included Neovim configuration is a barebones `lazy.nvim` setup with Mason’s package manager and the Nordic colorscheme. Mason can install language servers and other tools from `:Mason`; no LSP client or server configuration is included yet.
 
-The main Telescope shortcuts are `<Space>ff` to find files and `<Space>fg` to search file contents. Press `<C-Space>` to open completions; select items with `<Tab>`, `<C-n>` / `<C-p>`, or the arrow keys, then confirm with `<Enter>`. LSP buffers provide `gd` for definitions, `gr` for references, and `<Space>rn` to rename a symbol. Diagnostics appear in the sign column, inline, and in a bordered float; use `]d` and `[d` to move between them. Plugins and language servers are downloaded the first time Neovim starts, so that launch needs network access.
+Plugins download on first launch, so that launch needs network access.
 
 ## Terminal preview
 
