@@ -12,7 +12,12 @@ $git_status\
 $git_state\
 $python\
 $java\
+$maven\
+$gradle\
 $rust\
+$golang\
+$nodejs\
+$swift\
 $line_break\
 $character"""
 
@@ -65,8 +70,33 @@ symbol = ""
 format = "[·](slate) [$symbol $version](steel) "
 version_format = "v${major}.${minor}"
 
+[maven]
+symbol = ""
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
+[gradle]
+symbol = ""
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
 [rust]
 symbol = "󱘗"
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
+[golang]
+symbol = "󰟓"
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
+[nodejs]
+symbol = ""
+format = "[·](slate) [$symbol $version](steel) "
+version_format = "v${major}.${minor}"
+
+[swift]
+symbol = ""
 format = "[·](slate) [$symbol $version](steel) "
 version_format = "v${major}.${minor}"
 
@@ -77,4 +107,3 @@ vimcmd_symbol = "[<](frost)"
 vimcmd_replace_one_symbol = "[<](steel)"
 vimcmd_replace_symbol = "[<](steel)"
 vimcmd_visual_symbol = "[<](steel)"
-
