@@ -16,7 +16,7 @@ The installer sets up base packages, applies the dotfiles from `dotfiles/`, and 
 
 ## Neovim
 
-The included Neovim configuration is a barebones `lazy.nvim` setup with Mason’s package manager and the Nordic colorscheme. Mason can install language servers and other tools from `:Mason`; no LSP client or server configuration is included yet.
+The included Neovim configuration is a barebones `lazy.nvim` setup with Mason-managed Java LSP support and the Nordic colorscheme. Mason installs `jdtls`, and `mason-lspconfig` enables it for Java buffers.
 
 Plugins download on first launch, so that launch needs network access.
 

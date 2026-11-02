@@ -1,6 +1,5 @@
 [tools]
 neovim = "0.12"
-tree-sitter = "0.27"
 ripgrep = "15.2"
 fd = "10.5"
 bat = "0.26"
