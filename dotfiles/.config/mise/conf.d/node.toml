@@ -1,2 +1,7 @@
 [tools]
 node = "26"
+
+[env]
+NPM_CONFIG_CACHE = "${XDG_CACHE_HOME}/npm"
+NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc"
+NODE_REPL_HISTORY = "${XDG_STATE_HOME}/node/repl_history"
