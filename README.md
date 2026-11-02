@@ -7,19 +7,15 @@ A portable shell environment for my workstations. It uses [Zsh](https://www.zsh.
 Simply clone the repository and run the installer:
 
 ```sh
-git clone https://github.com/plaguv/zsh-environment.git \
-  && cd zsh-environment
-  && ./install.sh
+./install.sh
 ```
 
 The installer sets up base packages, applies the dotfiles from `dotfiles/`, and installs runtimes and command-line tools declared in the mise configuration. See the [installation guide](docs/INSTALLATION.md) for prerequisites and manual setup instructions.
 
-## Neovim
-
-The included Neovim configuration is a barebones `lazy.nvim` setup with Mason-managed Java LSP support and the Nordic colorscheme. Mason installs `jdtls`, and `mason-lspconfig` enables it for Java buffers.
-
-Plugins download on first launch, so that launch needs network access.
-
 ## Terminal preview
 
-![Terminal preview of the Zsh environment](docs/banner.png)
+![Terminal preview](docs/terminal-banner.png)
+
+## Neovim preview
+
+![Neovim preview](docs/nvim-banner.png)

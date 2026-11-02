@@ -6,15 +6,12 @@ This guide uses the GitHub repository [`plaguv/zsh-environment`](https://github.
 
 ### Prerequisites
 
-- Git, to clone the repository.
+- `sudo` access.
 - On macOS: Homebrew.
-- On Debian or Ubuntu: `sudo` access.
 
 Clone the repository and run the installer from its directory:
 
 ```sh
-git clone https://github.com/plaguv/zsh-environment.git \
-  && cd zsh-environment
   && ./install.sh
 ```
 
