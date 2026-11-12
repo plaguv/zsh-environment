@@ -1,0 +1,5 @@
+# Shared configuration loaded on every machine.
+# Optional tool groups live in config.<module>.toml.
+
+[settings]
+activate_shims = false
