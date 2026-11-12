@@ -1,0 +1,9 @@
+[tools]
+codex = "0.163.0"
+copilot = "1.0.2"
+
+[env]
+CODEX_HOME = "${XDG_STATE_HOME}/codex"
+CLAUDE_CONFIG_DIR = "${XDG_STATE_HOME}/claude"
+COPILOT_HOME = "${XDG_STATE_HOME}/copilot"
+COPILOT_MODEL = "openai/gpt-6-luna"
