@@ -1,0 +1,9 @@
+[tools]
+docker-cli = "29"
+docker-compose = "5.7"
+k3s = "1.37"
+helm = "4.3"
+
+[env]
+DOCKER_CONFIG = "${XDG_CONFIG_HOME}/docker"
+KUBECONFIG = "${XDG_CONFIG_HOME}/kube/config"

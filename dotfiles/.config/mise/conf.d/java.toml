@@ -1,9 +1,9 @@
 [tools]
-java = "temurin-25"
+java = "temurin-27"
 maven = "3.10"
-gradle = "9.8"
+gradle = "9.9"
 quarkus = "3.40"
 
 [env]
-MAVEN_ARGS = "--settings ${XDG_CONFIG_HOME}/maven/settings.xml"
+MAVEN_ARGS = "--settings ${XDG_CONFIG_HOME}/maven/settings.xml -Dmaven.repo.local=${XDG_CACHE_HOME}/maven/repository"
 MAVEN_USER_HOME = "${XDG_CACHE_HOME}/maven"
