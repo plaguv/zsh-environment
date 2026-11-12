@@ -1,6 +1,7 @@
 # History
-HISTFILE="$XDG_STATE_HOME/zsh/history"
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
 [[ -d "${HISTFILE:h}" ]] || command mkdir -p "${HISTFILE:h}"
+
 HISTSIZE=50000
 SAVEHIST=50000
 

@@ -5,6 +5,10 @@ export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 export XDG_OPT_HOME="${XDG_OPT_HOME:-$HOME/.local/opt}"
 
+# System
+export LESSHISTFILE="$XDG_STATE_HOME/less/"
+export WGETHSTS="$XDG_STATE_HOME/wget/"
+
 # Keep user-installed executables discoverable
 typeset -U path
 path=("$HOME/.local/bin" $path)
