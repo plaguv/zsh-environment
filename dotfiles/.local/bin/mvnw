@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Run the installed Maven with XDG storage (independent of project ./mvnw).
+set -eu
+
+config_home=${XDG_CONFIG_HOME:-"$HOME/.config"}
+cache_home=${XDG_CACHE_HOME:-"$HOME/.cache"}
+data_home=${XDG_DATA_HOME:-"$HOME/.local/share"}
+export MAVEN_USER_HOME=${MAVEN_USER_HOME:-"$data_home/maven"}
+
+settings_file="$config_home/maven/settings.xml"
+if [ -f "$settings_file" ]; then
+    set -- --settings "$settings_file" "$@"
+fi
+
+exec mvn "-Dmaven.repo.local=$cache_home/maven/repository" "$@"

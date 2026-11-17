@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Run kubectl with XDG configuration and discovery cache locations.
+set -eu
+
+config_home=${XDG_CONFIG_HOME:-"$HOME/.config"}
+cache_home=${XDG_CACHE_HOME:-"$HOME/.cache"}
+export KUBECONFIG=${KUBECONFIG:-"$config_home/kube/config"}
+
+exec kubectl --cache-dir="$cache_home/kube" "$@"
