@@ -1,4 +1,3 @@
 brew "git"
 brew "mise"
-brew "starship"
 brew "zsh"

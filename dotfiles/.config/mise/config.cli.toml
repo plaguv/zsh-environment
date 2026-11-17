@@ -1,7 +1,12 @@
 [tools]
+starship = "1.27"
 neovim = "0.12"
 ripgrep = "15.2"
 fd = "10.5"
 bat = "0.26"
 eza = "0.23"
 jq = "1.8"
+
+[env]
+STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship/starship.toml"
+STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"

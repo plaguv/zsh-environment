@@ -1,4 +1,3 @@
 git
 mise
-starship
 zsh
