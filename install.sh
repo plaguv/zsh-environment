@@ -104,50 +104,7 @@ install_shell() {
 }
 
 setup_ssh() {
-    local ssh_dir="$HOME/.ssh"
-    local private_key="$ssh_dir/id_ed25519"
-    local auth_key="$private_key.pub"
-    local signing_key="$ssh_dir/id_ed25519_signing.pub"
-    local public_key key_type key_data key_comment existing_type existing_data
-
-    command -v ssh-keygen >/dev/null 2>&1 || die 'ssh-keygen is required to set up SSH keys.'
-    mkdir -p "$ssh_dir"
-    chmod 700 "$ssh_dir"
-
-    if [[ ! -e "$private_key" && ! -L "$private_key" ]]; then
-        if [[ -e "$auth_key" || -L "$auth_key" || -e "$signing_key" || -L "$signing_key" ]]; then
-            die 'SSH public keys exist without ~/.ssh/id_ed25519. Restore the private key before rerunning; existing keys will not be replaced.'
-        fi
-        printf '  Creating an Ed25519 private key. Choose a passphrase when prompted.\n'
-        ssh-keygen -t ed25519 -f "$private_key" -C authentication
-    else
-        [[ -f "$private_key" ]] || die "SSH private key '$private_key' is not a regular file."
-        printf '  Reusing the existing Ed25519 private key.\n'
-    fi
-    chmod 600 "$private_key"
-
-    # One private key has one public key; the two files differ only in comment.
-    public_key="$(ssh-keygen -y -f "$private_key")" || die 'Could not derive the SSH public key.'
-    read -r key_type key_data key_comment <<< "$public_key"
-    [[ "$key_type" == ssh-ed25519 ]] || die 'Expected an Ed25519 key at ~/.ssh/id_ed25519.'
-
-    for public_key in "$auth_key" "$signing_key"; do
-        if [[ -e "$public_key" || -L "$public_key" ]]; then
-            [[ -f "$public_key" ]] || die "SSH public key '$public_key' is not a regular file."
-            read -r existing_type existing_data key_comment < "$public_key" || die "Cannot read SSH public key '$public_key'."
-            [[ "$existing_type $existing_data" == "$key_type $key_data" ]] || die "SSH public key '$public_key' does not match the private key; it will not be replaced."
-        fi
-    done
-
-    if [[ ! -e "$auth_key" ]]; then
-        (set -o noclobber; printf '%s %s authentication\n' "$key_type" "$key_data" > "$auth_key")
-        chmod 644 "$auth_key"
-    fi
-    if [[ ! -e "$signing_key" ]]; then
-        (set -o noclobber; printf '%s %s signing\n' "$key_type" "$key_data" > "$signing_key")
-        chmod 644 "$signing_key"
-    fi
-    printf '  Public keys are ready: %s (authentication) and %s (signing).\n' "$auth_key" "$signing_key"
+    bash "$repo_dir/dotfiles/.local/bin/refresh-ssh-keys.sh"
 }
 
 import_config() {
