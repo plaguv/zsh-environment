@@ -11,5 +11,6 @@ fi
 config_home=${XDG_CONFIG_HOME:-"$HOME/.config"}
 cache_home=${XDG_CACHE_HOME:-"$HOME/.cache"}
 export KUBECONFIG=${KUBECONFIG:-"$config_home/kube/config"}
+export KUBERC=${KUBERC:-"$config_home/kube/kuberc"}
 
 exec kubectl --cache-dir="$cache_home/kube" "$@"

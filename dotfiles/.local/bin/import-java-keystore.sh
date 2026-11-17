@@ -73,8 +73,8 @@ import_certificates() {
 }
 
 main() {
-  local keystore
-  local -a certificates
+  local keystore certificate
+  local -a certificates=()
 
   if [[ -z "${JAVA_HOME:-}" ]]; then
     error 'JAVA_HOME is not set; no certificates were imported'
@@ -91,7 +91,9 @@ main() {
     return 1
   fi
 
-  mapfile -t certificates < <(certificate_files)
+  while IFS= read -r certificate; do
+    certificates+=("$certificate")
+  done < <(certificate_files)
   if (( ${#certificates[@]} == 0 )); then
     error "No certificates found in '$CERT_DIR'; nothing to import"
     return 1

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Run GNU wget with its HSTS database in XDG state storage.
+set -eu
+
+if ! command -v wget >/dev/null 2>&1; then
+    printf '%s\n' 'wgetw: wget was not found in PATH. Install GNU wget first.' >&2
+    exit 127
+fi
+
+state_home=${XDG_STATE_HOME:-"$HOME/.local/state"}
+mkdir -p "$state_home/wget"
+
+exec wget --hsts-file="$state_home/wget/hsts" "$@"

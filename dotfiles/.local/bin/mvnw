@@ -18,4 +18,4 @@ if [ -f "$settings_file" ]; then
     set -- --settings "$settings_file" "$@"
 fi
 
-exec mvn "-Dmaven.repo.local=$cache_home/maven/repository" "$@"
+exec mvn "-Dmaven.repo.local=$data_home/maven/repository" "$@"

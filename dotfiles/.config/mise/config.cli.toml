@@ -10,3 +10,6 @@ jq = "1.8"
 [env]
 STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship/starship.toml"
 STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
+
+[shell_alias]
+wget = "wgetw"
