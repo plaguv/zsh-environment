@@ -3,6 +3,11 @@
 # Run the installed Maven with XDG storage (independent of project ./mvnw).
 set -eu
 
+if ! command -v mvn >/dev/null 2>&1; then
+    printf '%s\n' 'mvnw: mvn was not found in PATH. Enable the java mise module and install its tools.' >&2
+    exit 127
+fi
+
 config_home=${XDG_CONFIG_HOME:-"$HOME/.config"}
 cache_home=${XDG_CACHE_HOME:-"$HOME/.cache"}
 data_home=${XDG_DATA_HOME:-"$HOME/.local/share"}

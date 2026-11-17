@@ -3,6 +3,11 @@
 # Run kubectl with XDG configuration and discovery cache locations.
 set -eu
 
+if ! command -v kubectl >/dev/null 2>&1; then
+    printf '%s\n' 'kubectlw: kubectl was not found in PATH. Enable the virtualization mise module and ensure kubectl is installed.' >&2
+    exit 127
+fi
+
 config_home=${XDG_CONFIG_HOME:-"$HOME/.config"}
 cache_home=${XDG_CACHE_HOME:-"$HOME/.cache"}
 export KUBECONFIG=${KUBECONFIG:-"$config_home/kube/config"}
