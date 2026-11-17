@@ -17,6 +17,8 @@ Clone the repository and run the installer from its directory:
 
 The installer detects the operating system and installs base packages from [`manifests/Brewfile`](../manifests/Brewfile) or [`manifests/apt-packages.txt`](../manifests/apt-packages.txt). It then trusts this repository's mise config, deploys the files under [`dotfiles/`](../dotfiles/) into your home directory, and runs `mise install` for the configured runtimes and command-line tools.
 
+Before deploying dotfiles, the installer creates or reuses `~/.ssh/id_ed25519`. New keys prompt for a passphrase. It derives `~/.ssh/id_ed25519.pub` for authentication and `~/.ssh/id_ed25519_signing.pub` for signing; these contain the same public key with different comments. Existing keys are preserved, missing public files are restored, and mismatched keys stop setup. The Git configuration's existing `~/.ssh/id_ed25519.pub` signing path works with this shared key. Register the public key with your Git hosting service for each purpose you need.
+
 The contents of `dotfiles/` use the same names and directory layout as their destinations under your home directory. For example, `dotfiles/.config/zsh/aliases.zsh` is deployed as `~/.config/zsh/aliases.zsh`. mise uses copy mode, so edit the repository sources and rerun `mise dot apply` to deploy changes.
 
 The installer does not change your login shell. Once setup finishes, start a Zsh session with `zsh` or set Zsh as your login shell using your operating system's usual method.
