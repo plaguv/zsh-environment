@@ -1,15 +1,15 @@
 [user]
-    signingKey = ~/.ssh/id_ed25519_signing.pub
-    useConfigOnly = true
+signingKey = ~/.ssh/id_ed25519_signing.pub
+useConfigOnly = true
 
 [gpg]
-    format = ssh
+format = ssh
 
 [commit]
-    gpgSign = true
+gpgSign = true
 
 [tag]
-    gpgSign = true
+gpgSign = true
 
 [init]
-    defaultBranch = main
+defaultBranch = main
