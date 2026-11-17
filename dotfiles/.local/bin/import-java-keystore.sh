@@ -2,7 +2,7 @@
 
 set -u
 
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+CERT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/cert"
 
 log() {
   printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
@@ -30,8 +30,8 @@ find_keystore() {
 certificate_files() {
   local file
   shopt -s nullglob
-  for file in "$SCRIPT_DIR"/*.crt "$SCRIPT_DIR"/*.cer "$SCRIPT_DIR"/*.pem \
-    "$SCRIPT_DIR"/*.der; do
+  for file in "$CERT_DIR"/*.crt "$CERT_DIR"/*.cer "$CERT_DIR"/*.pem \
+    "$CERT_DIR"/*.der; do
     [[ -f "$file" ]] && printf '%s\n' "$file"
   done
 }
@@ -93,7 +93,7 @@ main() {
 
   mapfile -t certificates < <(certificate_files)
   if (( ${#certificates[@]} == 0 )); then
-    error "No certificates found in '$SCRIPT_DIR'; nothing to import"
+    error "No certificates found in '$CERT_DIR'; nothing to import"
     return 1
   fi
 
