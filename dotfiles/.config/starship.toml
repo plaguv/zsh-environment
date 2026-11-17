@@ -6,6 +6,8 @@ command_timeout = 1000
 palette = "obsidian"
 
 format = """
+$username\
+$hostname\
 $directory\
 $git_branch\
 $git_status\
@@ -31,6 +33,19 @@ steel = "#8894a6"
 frost = "#d8dee9"
 snow = "#eceff4"
 error = "#bf616a"
+
+[username]
+style_user = 'frost bold'
+style_root = 'error bold'
+format = '[$user]($style)'
+disabled = false
+show_always = true
+
+[hostname]
+style = 'frost bold'
+format = '[@$hostname]($style) [in](slate) '
+ssh_only = false
+disabled = false
 
 [directory]
 format = "[󰉋](slate) [$path](bold frost) "
