@@ -4,7 +4,7 @@
 set -eu
 
 if ! command -v kubectl >/dev/null 2>&1; then
-    printf '%s\n' 'kubectlw: kubectl was not found in PATH. Enable the virtualization mise module and ensure kubectl is installed.' >&2
+    printf '%s\n' 'kubectlw: kubectl was not found in PATH. Enable the kubernetes mise module and install its tools.' >&2
     exit 127
 fi
 

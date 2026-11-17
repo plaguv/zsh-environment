@@ -166,7 +166,7 @@ install_runtime() {
     XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}" \
     XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}" \
     XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}" \
-        zsh -c 'mise install'
+        zsh -c 'mise bootstrap --only packages,services,tools'
 }
 
 main() {
@@ -174,7 +174,7 @@ main() {
     run_stage 2 'Installing shell and bootstrap packages' install_shell
     run_stage 3 'Setting up SSH authentication and signing keys' setup_ssh
     run_stage 4 'Applying configuration with mise' import_config
-    run_stage 5 'Installing runtimes with mise' install_runtime
+    run_stage 5 'Bootstrapping selected module packages, services and runtimes with mise' install_runtime
     printf '\nAll setup stages completed. Start zsh to use the installed shell configuration.\n'
 }
 

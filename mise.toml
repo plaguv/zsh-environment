@@ -2,9 +2,9 @@ min_version = "2026.10.25"
 
 [dotfiles]
 "~" = { source = "dotfiles", mode = "copy", exclude = [
+    ".config/git/config",
     ".config/nvim",
-    ".config/starship",
-    ".config/git/config"
+    ".config/starship"
 ] }
 
 [dotfiles."~/.config/git/config/defaults"]

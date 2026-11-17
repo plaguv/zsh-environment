@@ -1,0 +1,11 @@
+[env]
+# Podman already honors XDG_CONFIG_HOME and XDG_DATA_HOME for rootless use.
+# Keep registry credentials persistent instead of in XDG_RUNTIME_DIR.
+REGISTRY_AUTH_FILE = "${XDG_CONFIG_HOME}/containers/auth.json"
+PODMAN_COMPOSE_PROVIDER = "docker-compose"
+
+[bootstrap.packages]
+"apt:podman" = { os = "linux" }
+"apt:podman-compose" = { os = "linux" }
+"brew:podman" = { os = "macos" }
+"brew:podman-compose" = { os = "macos" }
