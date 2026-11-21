@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -u
+set -euo pipefail
 
 CERT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/cert"
 

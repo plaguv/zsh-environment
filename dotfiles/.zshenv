@@ -11,7 +11,13 @@ export LESSHISTFILE="$XDG_STATE_HOME/less"
 
 # Keep user-installed executables discoverable
 typeset -U path
-path=("$XDG_BIN_HOME" "$HOME/.local/bin" $path)
+path=(
+  "$XDG_BIN_HOME"
+  "$HOME/.local/bin"
+  "$HOME/.local/bin/wrappers"
+  "$HOME/.local/bin/scripts"
+  $pa
+)
 export PATH
 
 # Reuse the agent started by refresh-ssh-keys.sh, preserving desktop/forwarded agents.
