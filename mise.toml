@@ -1,23 +1,9 @@
 min_version = "2026.10.25"
 
 [dotfiles]
-"~" = { source = "dotfiles", mode = "copy", exclude = [
-    ".config/git/config",
-    ".config/nvim",
-    ".config/starship"
-] }
+"~" = { source = "dotfiles", mode = "copy" }
 
 [dotfiles."~/.config/git/config/defaults"]
 source = "dotfiles/.config/git/config"
 merge = "missing"
 format = "ini"
-
-[dotfiles."~/.config/nvim"]
-source = "dotfiles/.config/nvim"
-mode = "copy"
-variants = [{ profile = "cli" }]
-
-[dotfiles."~/.config/starship"]
-source = "dotfiles/.config/starship"
-mode = "copy"
-variants = [{ profile = "cli" }]
