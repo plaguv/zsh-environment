@@ -146,6 +146,59 @@ rootless Podman API, enable its user socket on a systemd host:
 systemctl --user enable --now podman.socket
 ```
 
+### Docker API discovery (Testcontainers and k3d)
+
+`config.podman.toml` is authoritative for the Docker-compatible endpoint:
+its `[env]` values replace inherited Docker endpoint variables. No helper
+script, alternate-runtime detection, or socket symlink is needed.
+
+- **Linux:** `DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock` selects
+  rootless Podman. If the runtime variable is missing, mise uses the standard
+  `/run/user/<uid>` path. `.zshenv` exports this fallback only when the directory
+  already exists and belongs to the current user. Neither creates a directory;
+  the OS must provision the runtime directory and the user socket must be enabled.
+- **macOS:** a mise template runs `podman machine inspect` to obtain the default
+  machine's forwarded socket for `DOCKER_HOST`. Until Podman and its machine
+  exist, this value is empty so initial bootstrap remains possible. Start the
+  machine before running clients. Socket mount paths use `/var/run/docker.sock`
+  inside the VM, not the forwarded socket on macOS.
+
+`DOCKER_HOST` is the standard client discovery variable, not `DOCKER_SOCKET`.
+`DOCKER_SOCK` supplies k3d's daemon-side socket mount path, and
+`TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE` explicitly uses that same path for
+Testcontainers' socket mounts. On Linux these are the rootless socket path
+without `unix://`; on macOS both use the VM-side path.
+
+These settings do not start the service or VM. Run clients from a mise-activated
+shell or use `mise exec -- <command>`. GUI-launched IDEs need to inherit this
+environment or have it configured explicitly.
+
+For **rootless Podman**, the [Testcontainers Java guidance](https://java.testcontainers.org/supported_docker_environment/#podman)
+requires disabling Ryuk. Set this only for the relevant project/test command,
+for example in its `mise.local.toml`:
+
+```toml
+[env]
+TESTCONTAINERS_RYUK_DISABLED = "true"
+```
+
+This is deliberately not a global default: disabling Ryuk removes its automatic
+resource cleanup, so tests must clean up their containers and networks. Other
+Testcontainers language implementations may have different requirements.
+
+[k3d's Podman support](https://k3d.io/stable/usage/advanced/podman/) remains
+experimental. Socket discovery alone does not satisfy rootless Kubernetes
+requirements; cgroup v2/controller delegation and networking may need host/VM
+configuration. These modules do not install k3d or configure that delegation.
+
+For a local Unix socket, verify the Docker-compatible endpoint after starting
+the socket service or machine:
+
+```sh
+printf 'DOCKER_HOST=%s\nDOCKER_SOCK=%s\n' "$DOCKER_HOST" "$DOCKER_SOCK"
+curl --unix-socket "${DOCKER_HOST#unix://}" http://localhost/_ping
+```
+
 Rootless Linux also requires subordinate UID/GID mappings for your user in
 `/etc/subuid` and `/etc/subgid`; check these if the host does not provision them
 when creating users. Bootstrap installs packages but does not edit these mappings.

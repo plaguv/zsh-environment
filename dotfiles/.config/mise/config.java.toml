@@ -5,8 +5,8 @@ gradle = "9.9"
 quarkus = "3.40"
 
 [env]
-GRADLE_USER_HOME = "${XDG_DATA_HOME}/gradle"
-MAVEN_USER_HOME = "${XDG_DATA_HOME}/maven"
+GRADLE_USER_HOME = "{{ env.XDG_DATA_HOME }}/gradle"
+MAVEN_USER_HOME = "{{ env.XDG_DATA_HOME }}/maven"
 
 [shell_alias]
 mvn = "mvnw"

@@ -1,14 +1,12 @@
 [tools]
 kubectl = "1.37"
-k3s = { version = "1.37", os = ["linux"] }
 helm = "4.3"
+kustomize = "5.8"
+k3d = "5.9"
 
 [env]
-KUBECONFIG = "${XDG_CONFIG_HOME}/kube/config"
-KUBERC = "${XDG_CONFIG_HOME}/kube/kuberc"
-
-[bootstrap.packages]
-"brew:colima" = { os = "macos" }
+KUBECONFIG = "{{ env.XDG_CONFIG_HOME }}/kube/config"
+KUBERC = "{{ env.XDG_CONFIG_HOME }}/kube/kuberc"
 
 [shell_alias]
 kubectl = "kubectlw"

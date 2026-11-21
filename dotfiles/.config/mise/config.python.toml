@@ -3,8 +3,8 @@ python = "3.15"
 uv = "0.13"
 
 [env]
-PYTHON_HISTORY = "${XDG_STATE_HOME}/python/history"
-UV_TOOL_DIR = "${XDG_DATA_HOME}/uv/tools"
-UV_TOOL_BIN_DIR = "${XDG_BIN_HOME}"
-UV_PYTHON_INSTALL_DIR = "${XDG_DATA_HOME}/uv/python"
-UV_CACHE_DIR = "${XDG_CACHE_HOME}/uv"
+PYTHON_HISTORY = "{{ env.XDG_STATE_HOME }}/python/history"
+UV_TOOL_DIR = "{{ env.XDG_DATA_HOME }}/uv/tools"
+UV_TOOL_BIN_DIR = "{{ env.XDG_BIN_HOME }}"
+UV_PYTHON_INSTALL_DIR = "{{ env.XDG_DATA_HOME }}/uv/python"
+UV_CACHE_DIR = "{{ env.XDG_CACHE_HOME }}/uv"
