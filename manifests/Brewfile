@@ -1,4 +1,4 @@
 brew "git"
 brew "mise"
-brew "wget"
 brew "zsh"
+brew "keychain"

@@ -1,4 +1,5 @@
 git
 mise
 openssh-client
+keychain
 zsh

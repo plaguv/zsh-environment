@@ -21,8 +21,3 @@ path=(
   $path
 )
 export PATH
-
-# Reuse the agent started by refresh-ssh-keys.sh, preserving desktop/forwarded agents.
-if [[ -z "${SSH_AUTH_SOCK:-}" && -S "$HOME/.ssh/agent.sock" ]]; then
-    export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-fi
