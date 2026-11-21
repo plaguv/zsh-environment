@@ -12,14 +12,6 @@ $directory\
 $git_branch\
 $git_status\
 $git_state\
-$python\
-$java\
-$maven\
-$gradle\
-$rust\
-$golang\
-$nodejs\
-$swift\
 $line_break\
 $character"""
 
@@ -48,7 +40,7 @@ ssh_only = false
 disabled = false
 
 [directory]
-format = "[󰉋](slate) [$path](bold frost) "
+format = "[$path](bold frost) "
 truncation_length = 3
 truncate_to_repo = true
 truncation_symbol = "…/"
@@ -74,46 +66,6 @@ diverged = "⇡${ahead_count}⇣${behind_count} "
 
 [git_state]
 format = "[·](slate) [$state( $progress_current/$progress_total)](error) "
-
-[python]
-symbol = "󰌠"
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
-
-[java]
-symbol = ""
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
-
-[maven]
-symbol = ""
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
-
-[gradle]
-symbol = ""
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
-
-[rust]
-symbol = "󱘗"
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
-
-[golang]
-symbol = "󰟓"
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
-
-[nodejs]
-symbol = ""
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
-
-[swift]
-symbol = ""
-format = "[·](slate) [$symbol $version](steel) "
-version_format = "v${major}.${minor}"
 
 [character]
 success_symbol = "[>](steel)"

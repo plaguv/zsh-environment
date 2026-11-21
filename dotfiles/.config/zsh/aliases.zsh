@@ -1,5 +1,5 @@
 if (( $+commands[eza] )); then
-    alias lz='eza -la --icons --group-directories-first'
+    alias lz='eza --long --all --icons --group-directories-first'
 fi
 
 if (( $+commands[fdfind] && ! $+commands[fd] )); then
