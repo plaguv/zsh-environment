@@ -20,6 +20,7 @@ require("lazy").setup({
 		{ import = "plugins.mason" },
 		{ import = "plugins.lsp" },
 		{ import = "plugins.theme" },
+		{ import = "plugins.nvim-tree" },
 	},
 	defaults = {
 		lazy = false,
