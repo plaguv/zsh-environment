@@ -1,5 +1,5 @@
 [tools]
-opencode = "2.3.2"
+"aqua:anomalyco/opencode" = "2.3.2"
 
 [env]
 CODEX_HOME = "{{ env.XDG_STATE_HOME }}/codex"

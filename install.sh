@@ -103,9 +103,44 @@ install_shell() {
     esac
 }
 
-setup_ssh() {
-    bash "$repo_dir/dotfiles/.local/bin/refresh-ssh-keys.sh"
-}
+setup_ssh() (
+    ssh_dir="$HOME/.ssh"
+    tmp_dir=""
+
+    umask 077
+    mkdir -p -- "$ssh_dir"
+    trap 'if [[ -n "$tmp_dir" ]]; then rm -rf -- "$tmp_dir"; fi' EXIT
+
+    for key_name in id_ed25519_auth id_ed25519_sign; do
+        private_key="$ssh_dir/$key_name"
+        public_key="$private_key.pub"
+
+        for key_file in "$private_key" "$public_key"; do
+            if [[ ( -e "$key_file" || -L "$key_file" ) && ! -f "$key_file" ]]; then
+                die "Not a regular SSH key file: $key_file"
+            fi
+        done
+        if [[ -f "$private_key" && -f "$public_key" ]]; then
+            continue
+        fi
+
+        command -v ssh-keygen >/dev/null 2>&1 || die 'ssh-keygen is required to set up SSH keys.'
+        if [[ -z "$tmp_dir" ]]; then
+            tmp_dir="$(mktemp -d "$ssh_dir/.install-keys.XXXXXXXX")"
+        fi
+        tmp_key="$tmp_dir/$key_name"
+
+        if [[ -f "$private_key" ]]; then
+            printf '  Restoring public key %s.\n' "$public_key"
+            ssh-keygen -y -f "$private_key" > "$tmp_key.pub" || die "Could not read SSH private key: $private_key"
+        else
+            printf '  Creating %s. Choose a passphrase when prompted.\n' "$private_key"
+            ssh-keygen -t ed25519 -f "$tmp_key" || die "Could not generate SSH key: $private_key"
+            mv -f -- "$tmp_key" "$private_key"
+        fi
+        mv -f -- "$tmp_key.pub" "$public_key"
+    done
+)
 
 import_config() {
     command -v mise >/dev/null 2>&1 || die 'mise was not installed.'

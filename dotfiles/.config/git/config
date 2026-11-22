@@ -1,5 +1,5 @@
 [user]
-signingKey = ~/.ssh/id_ed25519_signing.pub
+signingKey = ~/.ssh/id_ed25519_sign.pub
 useConfigOnly = true
 
 [gpg]
